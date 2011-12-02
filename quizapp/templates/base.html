@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>{% block title %}{%endblock %}</title>
+	<link rel="stylesheet" href="{% url static style.css %}style.css">{# fuckingly annoying #}
+</head>
+<body>
+<div id="container">
+{% block body %}
+{% endblock %}
+</div>
+</body>
+</html>

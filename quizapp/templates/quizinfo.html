@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}MyQuiz?! | {{quiz.title}}{% endblock %}
+{% block body %}
+<div class="header"><a href="{% url quizlist %}">{{quiz.title}}</a></div>
+<div class="body">
+	<div class="doexam"><a href="{% url doquiz quiz.id %}">ทำข้อสอบ</a></div>
+	<div class="meta"><strong>โดย</strong> {{quiz.user}} <strong>เมื่อ</strong> {{quiz.creation|naturalday:"DATE_FORMAT"}} <strong>คะแนนเต็ม</strong> {{quiz.score|intcomma}} <strong>จำนวนข้อ</strong> {{quiz.question_set.count|intcomma}}</div>
+	<p class="desc">{{quiz.desc|safe}}</p>
+	<br style="clear: both;">
+	<div class="box">
+		<h2>สถิติ</h2>
+		<ul>
+			<li><strong>ทำข้อสอบ:</strong> {{quiz.result_set.count|intcomma}} ครั้ง</li>
+			<li><strong>ได้คะแนนสูงสุด:</strong> {{topppl|length|intcomma}} ครั้ง</li>
+			<li><strong>คะแนนสูงสุด:</strong> {{topscore|intcomma}} คะแนน</li>
+		</ul>
+	</div>
+	{% if lastentry|length > 0 %}
+	<div class="box">
+		<h2>ผู้ทำข้อสอบล่าสุด</h2>
+		<ol>
+			{% for i in lastentry %}
+			<li>{{i.name}} <strong>เมื่อ</strong> {{i.time|date:"DATETIME_FORMAT"}} <strong>ได้</strong> {{i.score|floatformat|intcomma}} <strong>คะแนน</strong></li>
+			{% endfor %}
+		</ol>
+	</div>
+	{% endif %}
+</div>
+{% endblock %}

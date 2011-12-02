@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}MyQuiz?! | {{quiz.title}}{% endblock %}
+{% block body %}
+<div class="header"><a href="{% url quizinfo quiz.id %}">{{quiz.title}}</a></div>
+<div class="body">
+	{% if justdone %}<p>ขอแสดงความยินดี คุณได้ส่งข้อสอบแล้ว! ผลการสอบของคุณ:</p>{% endif %}
+	<ul>
+		<li><strong>คะแนนที่ได้:</strong> {{result.score|intcomma}}/{{quiz.score|intcomma}} คะแนน</li>
+		<li><strong>รหัสอ้างอิง:</strong> <a href="{% url result quiz.id quiz.id result.id result.refCode %}">{{quiz.id}}-{{result.id}}-{{result.refCode}}</a></li>
+		<li><strong>เวลาที่ส่งข้อสอบ:</strong> {{result.time|date:"DATETIME_FORMAT"}}</li>
+	</ul>
+	<a href="{% url quizinfo quiz.id %}">กลับสู่คำถาม</a>
+</div>
+{% endblock %}

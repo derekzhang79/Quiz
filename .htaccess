@@ -1,0 +1,7 @@
+Options ExecCGI FollowSymlinks
+AddType text/html wsgi
+AddHandler wsgi-script .wsgi
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ dja.wsgi/$1 [L]

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}MyQuiz?!{% endblock %}
+{% block body %}
+<div class="header"><a href="{% url quizlist %}">MyQuiz?!</a></div>
+<div class="body">
+	<b>รายการคำถามในระบบ</b>
+	<ul class="quizlist">
+		{% for i in quiz %}
+		<li>
+			<h2><a href="{% url quizinfo id=i.id %}">{{i.title}}</a></h2>
+			<div class="meta"><strong>โดย</strong> {{i.user}} <strong>เมื่อ</strong> {{i.creation|naturalday:"DATE_FORMAT"}} <strong>คะแนนเต็ม</strong> {{i.score|intcomma}} <strong>จำนวนข้อ</strong> {{i.question_set.count|intcomma}}</div>
+			<div class="desc">{{i.desc|safe}}</div>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}MyQuiz?! | {{quiz.title}}{% endblock %}
+{% block body %}
+<div class="header">{{quiz.title}}</div>
+<div class="body">
+	<p>แบบทดสอบนี้มีจำนวน {{question|length|intcomma}} ข้อ คิดเป็น {{quiz.score|intcomma}} คะแนน ให้เลือกตอบข้อที่ถูกต้องที่สุด 1 ข้อเท่านั้น เมื่อทำเสร็จทุกคำถามและได้ตรวจทานแล้ว ให้กดปุ่ม ส่งข้อสอบ</p>
+	<form action="{% url sendquiz quiz.id %}" method="post">
+		{% csrf_token %}
+		<div class="box">
+			<strong>ชื่อผู้ทำ (ไม่เกิน 50 อักษร):</strong> <input name="name">
+		</div>
+		<input type="submit" value="ส่งข้อสอบ">
+		{% for quest in question %}
+		<div class="question {% cycle 'odd' 'even' %}">
+			<strong>{{forloop.counter|intcomma}}. {{quest.title}} </strong>({{quest.object.score|intcomma}} คะแนน)
+			<ol>
+				{% for choice in quest.choice %}
+				<li><input type="radio" name="q{{quest.id}}" value="{{choice.id}}" id="{{choice.id}}" {% if forloop.first %}checked{% endif %}><label for="{{choice.id}}"> {{choice.text|safe}}</label></li>
+				{% endfor %}
+			</ol>
+		</div>
+		{% endfor %}
+		<input type="submit" value="ส่งข้อสอบ">
+	</form>
+</div>
+{% endblock %}
